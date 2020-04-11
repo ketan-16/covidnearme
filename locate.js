@@ -5,6 +5,41 @@ var state = document.getElementById("state");
 var countryn = document.getElementById("country-count");
 var country = document.getElementById("country");
 
+
+function getNumbers(city, state){
+    var request = new XMLHttpRequest()
+    request.open('GET', 'https://api.covid19india.org/data.json', true)
+    request.onload = function() {
+        console.log("Getting numbers...")
+        var data = JSON.parse(this.response);
+        countryn.innerHTML = data['cases_time_series'].reverse()[0].totalconfirmed;
+        getMoreNumbers(city, state)
+    }
+    request.send()
+}
+
+function getMoreNumbers(city, state){
+    var request = new XMLHttpRequest()
+    request.open('GET', 'https://api.covid19india.org/state_district_wise.json', true)
+    request.onload = function() {
+        console.log("Getting more numbers...")
+        var total_staten = 0;
+        var data = JSON.parse(this.response);
+        var temp_cityn = data[state]['districtData'][city]['confirmed'];
+        for (x in data[state]['districtData']){
+            total_staten+=data[state]['districtData'][x]['confirmed'];
+        }
+        
+        
+        
+        
+        cityn.innerHTML = temp_cityn;
+        staten.innerHTML = total_staten;
+        //countryn.innerHTML = data['cases_time_series'].reverse()[0].totalconfirmed;
+    }
+    request.send()
+}
+
 function getGeolocation(){
     //console.log("Button Pressed!");
     console.log("Button Pressed asdf");
@@ -16,7 +51,6 @@ function getGeolocation(){
         x.innerHTML = "Geolocation is not supported by this browser.";
     }
 }
-
 
 function showPosition(position) {
     var request = new XMLHttpRequest()
@@ -32,7 +66,8 @@ function showPosition(position) {
         city.innerHTML = temp_city;
         state.innerHTML = temp_state;
         country.innerHTML = temp_country;
+        getNumbers(temp_city,temp_state);
     }
     request.send()
-    getNumbers(temp_city,temp_state,temp_country);
+    
 }
