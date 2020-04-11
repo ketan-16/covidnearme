@@ -13,6 +13,7 @@ function getNumbers(city, state){
         console.log("Getting numbers...")
         var data = JSON.parse(this.response);
         countryn.innerHTML = data['cases_time_series'].reverse()[0].totalconfirmed;
+        countryn.style.color = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
         getMoreNumbers(city, state)
     }
     request.send()
@@ -34,7 +35,9 @@ function getMoreNumbers(city, state){
         
         
         cityn.innerHTML = temp_cityn;
+        cityn.style.color = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
         staten.innerHTML = total_staten;
+        staten.style.color = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
         //countryn.innerHTML = data['cases_time_series'].reverse()[0].totalconfirmed;
     }
     request.send()
@@ -64,8 +67,11 @@ function showPosition(position) {
         var temp_state = data['results'][0]['components']['state'];
         var temp_city = data['results'][0]['components']['state_district'];
         city.innerHTML = temp_city;
+        city.style.color = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
         state.innerHTML = temp_state;
+        state.style.color = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
         country.innerHTML = temp_country;
+        country.style.color = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
         getNumbers(temp_city,temp_state);
     }
     request.send()

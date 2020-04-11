@@ -11,6 +11,15 @@
     }
 }
 
+#button-fetch{
+    margin: 10px 0px 0px 0px;
+}
+
+.content{
+    margin-top: 15%;
+    margin-bottom: 15%;
+}
+
 body{
     text-align: center;
     font-family: 'Roboto Slab', serif;
