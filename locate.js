@@ -11,9 +11,17 @@ function getNumbers(city, state){
     request.open('GET', 'https://api.covid19india.org/data.json', true)
     request.onload = function() {
         var data = JSON.parse(this.response);
-        countryn.innerHTML = data['cases_time_series'].reverse()[0].totalconfirmed;
+        countryn.innerHTML = data['statewise'][0].active;
+        for (x in data['statewise']){
+            if(data['statewise'][x]['state']==state){
+                staten.innerHTML = data['statewise'][x]['active'];
+            }
+        }
+
         countryn.style.color = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
         countryn.className = 'count';
+        staten.style.color = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
+        staten.className = 'count';
         getMoreNumbers(city, state)
     }
     request.send()
@@ -23,18 +31,15 @@ function getMoreNumbers(city, state){
     var request = new XMLHttpRequest()
     request.open('GET', 'https://api.covid19india.org/state_district_wise.json', true)
     request.onload = function() {
-        var total_staten = 0;
         var data = JSON.parse(this.response);
         var temp_cityn = data[state]['districtData'][city]['confirmed'];
-        for (x in data[state]['districtData']){
-            total_staten+=data[state]['districtData'][x]['confirmed'];
-        }
         cityn.innerHTML = temp_cityn;
+        if(cityn.innerHTML==undefined){
+            cityn.style.display = "none";
+            city.style.display = "none";
+        }
         cityn.style.color = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
         cityn.className = 'count';
-        staten.innerHTML = total_staten;
-        staten.style.color = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
-        staten.className = 'count';
         animate();
     }
     request.send();
